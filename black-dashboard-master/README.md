@@ -1,152 +1,148 @@
-# [Black Dashboard](https://demos.creative-tim.com/black-dashboard/examples/dashboard.html) [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&logo=twitter)](https://twitter.com/intent/tweet?text=Black%20Dashboard%20by%20Creative%20Tim&url=https%3A%2F%2Fdemos.creative-tim.com%2Fblack-dashboard%2Fexamples%2Fdashboard.html&via=CreativeTim)
+# [Black Dashboard Flask](https://demos.creative-tim.com/black-dashboard/examples/dashboard.html) [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&logo=twitter)](https://twitter.com/intent/tweet?text=Black%20Dashboard%20by%20Creative%20Tim&url=https%3A%2F%2Fdemos.creative-tim.com%2Fblack-dashboard%2Fexamples%2Fdashboard.html&via=CreativeTim)
 
 
- ![version](https://img.shields.io/badge/version-1.0.0-blue.svg)  ![license](https://img.shields.io/badge/license-MIT-blue.svg) [![GitHub issues open](https://img.shields.io/github/issues/creativetimofficial/black-dashboard/issues.svg?maxAge=2592000)](https://github.com/creativetimofficial/black-dashboard/issues/issues?q=is%3Aopen+is%3Aissue) [![GitHub issues closed](https://img.shields.io/github/issues-closed-raw/creativetimofficial/black-dashboard/issues.svg?maxAge=2592000)](https://github.com/creativetimofficial/black-dashboard/issues/issues?q=is%3Aissue+is%3Aclosed) [![Join the chat at https://gitter.im/NIT-dgp/General](https://badges.gitter.im/NIT-dgp/General.svg)](https://gitter.im/creative-tim-general/Lobby) [![Chat](https://img.shields.io/badge/chat-on%20discord-7289da.svg)](https://discord.gg/E4aHAQy)
+ ![version](https://img.shields.io/badge/version-1.0.1-blue.svg)  ![license](https://img.shields.io/badge/license-MIT-blue.svg) [![GitHub issues open](https://img.shields.io/github/issues/creativetimofficial/black-dashboard/issues.svg?maxAge=2592000)](https://github.com/creativetimofficial/black-dashboard/issues/issues?q=is%3Aopen+is%3Aissue) [![GitHub issues closed](https://img.shields.io/github/issues-closed-raw/creativetimofficial/black-dashboard/issues.svg?maxAge=2592000)](https://github.com/creativetimofficial/black-dashboard/issues/issues?q=is%3Aissue+is%3Aclosed) [![Join the chat at https://gitter.im/NIT-dgp/General](https://badges.gitter.im/NIT-dgp/General.svg)](https://gitter.im/creative-tim-general/Lobby) [![Chat](https://img.shields.io/badge/chat-on%20discord-7289da.svg)](https://discord.gg/E4aHAQy)
 
 
 ![Product Gif](https://s3.amazonaws.com/creativetim_bucket/github/gif/black-dashboard.gif)
 
-Black Dashboard is a beautiful Bootstrap 4 Admin Dashboard with a huge number of components built to fit together and look amazing. If you are looking for a tool to manage and visualize data about your business, this dashboard is the thing for you. It combines colors that are easy on the eye, spacious cards, beautiful typography, and graphics.
-Black Dashboard comes packed with all plugins that you might need inside a project and documentation on how to get started. It is light and easy to use, and also very powerful.
+Black Dashboard Flask est une application web intégrant le design Bootstrap 4 "Black Dashboard" avec un backend Flask. Cette application combine la beauté du design avec la puissance de Python Flask pour la gestion des utilisateurs et l'authentification sécurisée.
 
-Black Dashboard features over 16 individual components, giving you the freedom of choosing and combining. This means that there are thousands of possible combinations. All components can take variations in color, that you can easily modify using SASS files. You will save a lot of time going from prototyping to full-functional code because all elements are implemented.
-We thought about everything, so this dashboard comes with 2 versions, Dark Mode and Light Mode. 
+Le système inclut :
+- Authentification utilisateur avec email et mot de passe
+- Vérification par code OTP (One-Time Password)
+- Interface administrateur élégante
+- Base de données SQL Server via pyODBC
+- Pages Dashboard et Profil utilisateur
 
-Special thanks go to:
-- [Robert McIntosh](https://github.com/mouse0270/bootstrap-notify) for the notification system.
-- [Chartist](https://gionkunz.github.io/chartist-js/) for the wonderful charts.
-We are very excited to share this dashboard with you and we look forward to hearing your feedback!
+Black Dashboard est conçu avec des couleurs agréables à l'œil, des cartes spacieuses, une belle typographie et des graphiques attrayants. Il est léger, facile à utiliser et très puissant.
 
+Le dashboard est disponible en deux versions: Mode Sombre et Mode Clair.
 
-## Table of Contents
+Remerciements spéciaux à :
+- [Robert McIntosh](https://github.com/mouse0270/bootstrap-notify) pour le système de notification.
+- [Chartist](https://gionkunz.github.io/chartist-js/) pour les magnifiques graphiques.
 
+## Table des matières
 
-* [Demo](#demo)
-* [Quick Start](#quick-start)
-* [Deploy](#deploy)
-* [Documentation](#documentation)
-* [File Structure](#file-structure)
-* [Browser Support](#browser-support)
-* [Resources](#resources)
-* [Reporting Issues](#reporting-issues)
-* [Technical Support or Questions](#technical-support-or-questions)
-* [Licensing](#licensing)
-* [Useful Links](#useful-links)
-
-
-## Demo
-
-- [Start page](https://demos.creative-tim.com/black-dashboard/examples/dashboard.html)
-- [User profile page](https://demos.creative-tim.com/black-dashboard/examples/user.html)
-- [Tables page ](https://demos.creative-tim.com/black-dashboard/examples/tables.html)
-
-[View More](https://demos.creative-tim.com/black-dashboard/examples/dashboard.html).
+* [Démo](#demo)
+* [Démarrage rapide](#démarrage-rapide)
+* [Installation](#installation)
+* [Fonctionnalités](#fonctionnalités)
+* [Structure des fichiers](#structure-des-fichiers)
+* [Support navigateur](#support-navigateur)
+* [Ressources](#ressources)
+* [Signaler un problème](#signaler-un-problème)
+* [Support technique ou questions](#support-technique-ou-questions)
+* [Licence](#licence)
+* [Liens utiles](#liens-utiles)
 
 
-## Quick start
+## Démo
 
-- `npm i black-dashboard`
-- Clone the repo: `git clone https://github.com/creativetimofficial/black-dashboard.git`.
-- [Download from Github](https://github.com/creativetimofficial/black-dashboard/archive/master.zip).
-- [Download from Creative Tim](https://www.creative-tim.com/product/black-dashboard).
+- [Page d'accueil](https://demos.creative-tim.com/black-dashboard/examples/dashboard.html)
+- [Page profil utilisateur](https://demos.creative-tim.com/black-dashboard/examples/user.html)
+- [Page tableaux](https://demos.creative-tim.com/black-dashboard/examples/tables.html)
 
-## Deploy
-
-:rocket: You can deploy your own version of the template to Genezio with one click:
-
-[![Deploy to Genezio](https://raw.githubusercontent.com/Genez-io/graphics/main/svg/deploy-button.svg)](https://app.genez.io/start/deploy?repository=https://github.com/creativetimofficial/black-dashboard&utm_source=github&utm_medium=referral&utm_campaign=github-creativetim&utm_term=deploy-project&utm_content=button-head)
-
-## Documentation
-The documentation for the Black Dashboard is hosted at our [website](https://demos.creative-tim.com/black-dashboard/docs/1.0/getting-started/introduction.html).
+[Voir plus](https://demos.creative-tim.com/black-dashboard/examples/dashboard.html).
 
 
-## File Structure
-Within the download you'll find the following directories and files:
+## Démarrage rapide
 
+- Cloner le repo: `git clone https://github.com/votreusername/black-dashboard-flask.git`.
+- Installer les dépendances: `pip install -r requirements.txt`
+- Configurer la connexion SQL Server dans `app.py`
+- Lancer l'application: `python app.py`
+
+## Installation
+
+1. Assurez-vous que Python 3.6+ est installé
+2. Installez les dépendances:
 ```
-black-dashboard/
+pip install flask pyodbc werkzeug
+```
+3. Configurez votre connexion SQL Server dans le fichier app.py:
+```python
+server = 'votre_serveur'  # Remplacez par votre serveur SQL
+database = 'users'       # Nom de la base de données
+```
+4. Lancez l'application:
+```
+python app.py
+```
+5. Accédez à l'application à l'adresse http://127.0.0.1:5000
+
+## Fonctionnalités
+
+1. **Authentification utilisateur**:
+   - Inscription avec email et mot de passe
+   - Vérification par code OTP
+   - Connexion sécurisée
+
+2. **Interface dashboard**:
+   - Vue d'ensemble des données
+   - Profil utilisateur
+   - Navigation intuitive
+
+3. **Sécurité**:
+   - Mots de passe hashés
+   - Protection contre les attaques courantes
+   - Gestion des sessions Flask
+
+## Structure des fichiers
+```
+black-dashboard-flask/
 ├── CHANGELOG.md
 ├── README.md
-├── static
-│   ├── css
-│   │   ├── black-dashboard.css
-│   │   ├── black-dashboard.css.map
-│   │   ├── black-dashboard.min.css
-│   │   ├── bootstrap.min.css
-│   │   └── nucleo-icons.css
-│   ├── demo
-│   │   ├── demo.css
-│   │   └── demo.js
-│   ├── fonts/
-│   ├── img/
-│   ├── js
-│   │   ├── black-dashboard.js
-│   │   ├── black-dashboard.js.map
-│   │   ├── black-dashboard.min.js
-│   │   ├── core/
-│   │   └── plugins
-│   │       ├── bootstrap-notify.js
-│   │       ├── chartjs.min.js
-│   │       └── perfect-scrollbar.jquery.min.js
-│   └── scss/
-│       ├── black-dashboard/
-│       └── black-dashboard.scss
-├── docs
-│   └── documentation.html
-├── examples
-│   ├── dashboard.html
-│   ├── login.html
-│   └── user.html
+├── static/
+│   ├── css/
+│   ├── demo/
+│   ├── fonts/
+│   ├── img/
+│   ├── js/
+│   └── scss/
+├── templates/
+│   ├── dashboard.html
+│   ├── login.html
+│   └── user.html
+├── app.py                # Application Flask principale
 ├── gulpfile.js
-├── otp.html
-├── log.py
-├── app.py
+├── genezio.yaml
 ├── package.json
 └── LICENSE.md
-
-
 ```
 
+## Support navigateur
 
-## Browser Support
-
-At present, we officially aim to support the last two versions of the following browsers:
+Nous visons officiellement à prendre en charge les deux dernières versions des navigateurs suivants:
 
 <img src="https://s3.amazonaws.com/creativetim_bucket/github/browser/chrome.png" width="64" height="64"> <img src="https://s3.amazonaws.com/creativetim_bucket/github/browser/firefox.png" width="64" height="64"> <img src="https://s3.amazonaws.com/creativetim_bucket/github/browser/edge.png" width="64" height="64"> <img src="https://s3.amazonaws.com/creativetim_bucket/github/browser/safari.png" width="64" height="64"> <img src="https://s3.amazonaws.com/creativetim_bucket/github/browser/opera.png" width="64" height="64">
 
+## Signaler un problème
 
+Nous utilisons GitHub Issues comme outil officiel de suivi des bugs. Voici quelques conseils:
 
-## Reporting Issues
+1. Assurez-vous d'utiliser la dernière version de l'application.
+2. Fournissez des étapes reproductibles pour réduire le temps de résolution.
+3. Certains problèmes peuvent être spécifiques au navigateur, alors précisez dans quel navigateur vous avez rencontré le problème.
 
-We use GitHub Issues as the official bug tracker for the Black Dashboard. Here are some advices for our users that want to report an issue:
+## Support technique ou questions
 
-1. Make sure that you are using the latest version of the Black Dashboard. Check the CHANGELOG from your dashboard on our [website](https://www.creative-tim.com/).
-2. Providing us reproducible steps for the issue will shorten the time it takes for it to be fixed.
-3. Some issues may be browser specific, so specifying in what browser you encountered the issue might help.
+Si vous avez des questions ou besoin d'aide pour intégrer le produit, veuillez [nous contacter](mailto:votre-email@exemple.com) au lieu d'ouvrir un ticket.
 
-
-## Technical Support or Questions
-
-If you have questions or need help integrating the product please [contact us]() instead of opening an issue.
-
-
-
-## Licensing
+## Licence
 
 - Copyright 2019 Creative Tim (https://www.creative-tim.com/)
+- Licence MIT (https://github.com/creativetimofficial/black-dashboard/issues/blob/master/LICENSE.md)
 
-- Licensed under MIT (https://github.com/creativetimofficial/black-dashboard/issues/blob/master/LICENSE.md)
+## Liens utiles
 
+- [Plus de produits](https://www.creative-tim.com/bootstrap-themes) de Creative Tim
+- [Tutoriels](https://www.youtube.com/channel/UCVyTG4sCw-rOvB9oHkzZD1w)
+- [Freebies](https://www.creative-tim.com/bootstrap-themes/free) de Creative Tim
+- [Programme d'affiliation](https://www.creative-tim.com/affiliates/new) (gagnez de l'argent)
 
-
-## Useful Links
-
-- [More products](https://www.creative-tim.com/bootstrap-themes) from Creative Tim
-- [Tutorials](https://www.youtube.com/channel/UCVyTG4sCw-rOvB9oHkzZD1w)
-- [Freebies](https://www.creative-tim.com/bootstrap-themes/free) from Creative Tim
-- [Affiliate Program](https://www.creative-tim.com/affiliates/new) (earn money)
-
-##### Social Media
+##### Réseaux sociaux
 
 Twitter: <https://twitter.com/CreativeTim>
 
@@ -154,7 +150,4 @@ Facebook: <https://www.facebook.com/CreativeTim>
 
 Dribbble: <https://dribbble.com/creativetim>
 
-Google+: <https://plus.google.com/+CreativetimPage>
-
 Instagram: <https://instagram.com/creativetimofficial>
-
