@@ -1,206 +1,224 @@
 body {
-	margin: 0;
-	padding: 0;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	min-height: 100vh;
-	font-family: 'Jost', sans-serif;
-	background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: 'Jost', sans-serif;
+    background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
 }
 
 .main {
-	width: 350px;
-	height: 500px;
-	background: red;
-	overflow: hidden;
-	background: url("https://doc-08-2c-docs.googleusercontent.com/docs/securesc/68c90smiglihng9534mvqmq1946dmis5/fo0picsp1nhiucmc0l25s29respgpr4j/1631524275000/03522360960922298374/03522360960922298374/1Sx0jhdpEpnNIydS4rnN4kHSJtU1EyWka?e=view&authuser=0&nonce=gcrocepgbb17m&user=03522360960922298374&hash=tfhgbs86ka6divo3llbvp93mg4csvb38") no-repeat center/ cover;
-	border-radius: 10px;
-	box-shadow: 5px 20px 50px #000;
-	position: relative;
-	/* Needed for z-index stacking context */
+    width: 400px;
+    height: 650px;
+    background: #fff;
+    overflow: hidden;
+    border-radius: 15px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    position: relative;
 }
 
 #chk {
-	display: none;
+    display: none;
 }
 
 .signup {
-	position: relative;
-	width: 100%;
-	height: 100%;
-	z-index: 2;
-	/* Keep signup above login initially */
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    background: linear-gradient(to bottom, #24243e, #302b63);
+    padding: 15px 0 30px 0;
 }
 
 label {
-	color: #fff;
-	font-size: 2.3em;
-	justify-content: center;
-	display: flex;
-	/* Adjust top/bottom and left/right margins separately */
-	margin: 40px auto 20px auto;
-	/* Reduced top and bottom margins */
-	font-weight: bold;
-	cursor: pointer;
-	transition: .5s ease-in-out;
+    color: #fff;
+    font-size: 1.8em;
+    justify-content: center;
+    display: flex;
+    margin: 20px auto 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .3s ease-in-out;
 }
 
-
 input {
-	width: 60%;
-	height: 20px;
-	background: #e0dede;
-	display: block;
-	margin: 10px auto;
-	/* Reduced vertical margin */
-	padding: 10px;
-	border: none;
-	outline: none;
-	border-radius: 5px;
+    width: 70%;
+    height: 24px;
+    background: #f0f0f0;
+    display: block;
+    margin: 15px auto;
+    padding: 12px 15px;
+    border: none;
+    outline: none;
+    border-radius: 8px;
+    font-size: 1em;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 button {
-	width: 60%;
-	height: 40px;
-	margin: 10px auto;
-	justify-content: center;
-	display: block;
-	color: #fff;
-	background: #573b8a;
-	font-size: 1em;
-	font-weight: bold;
-	margin-top: 15px;
-	/* Slightly reduced top margin */
-	outline: none;
-	border: none;
-	border-radius: 5px;
-	transition: .2s ease-in;
-	cursor: pointer;
+    width: 75%;
+    height: 50px;
+    margin: 20px auto;
+    justify-content: center;
+    display: block;
+    color: #fff;
+    background: #573b8a;
+    font-size: 1.1em;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    transition: .2s ease-in;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 button:hover {
-	background: #6d44b8;
+    background: #6d44b8;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.25);
 }
 
 .login {
-	height: 460px;
-	background: #eee;
-	border-radius: 60% / 10%;
-	/* Further reduce the initial upward translation */
-	transform: translateY(-100px);
-	/* Changed from -120px */
-	transition: .8s ease-in-out;
-	position: absolute;
-	width: 100%;
-	top: 100%;
-	z-index: 1;
+    height: 520px;
+    background: #f8f8f8;
+    border-radius: 30px 30px 0 0;
+    transform: translateY(-180px);
+    transition: .8s ease-in-out;
+    position: absolute;
+    width: 100%;
+    top: 100%;
+    z-index: 1;
+    padding-top: 20px;
 }
 
 .login label {
-	color: #573b8a;
-	transform: scale(.6);
-	margin-top: 0;
-	/* Adjust margin for login label */
-	margin-bottom: 20px;
+    color: #573b8a;
+    transform: scale(.8);
+    margin: 15px auto;
 }
 
-#chk:checked~.login {
-	/* Ensure this value still correctly positions the login form when active */
-	transform: translateY(-500px);
-	z-index: 3;
+#chk:checked ~ .login {
+    transform: translateY(-650px);
+    z-index: 3;
 }
 
-#chk:checked~.login label {
-	transform: scale(1);
+#chk:checked ~ .login label {
+    transform: scale(1);
+    margin: 30px auto 15px;
 }
 
-#chk:checked~.signup label {
-	transform: scale(.6);
+#chk:checked ~ .signup label {
+    transform: scale(.8);
+    margin: 15px auto;
+}
+
+/* Styling pour "Déjà un compte?" et "Pas encore de compte?" */
+.existing-account, .new-account {
+    text-align: center;
+    margin: 5px auto 15px;
+    width: 80%;
+    font-size: 0.9em;
+}
+
+.existing-account span, .new-account span {
+    color: rgba(255, 255, 255, 0.8);
+    margin-right: 5px;
+}
+
+.existing-account .switch-form, .new-account .switch-form {
+    display: inline;
+    color: #90ee90;
+    font-size: 0.9em;
+    margin: 0;
+    padding: 0;
+    text-decoration: underline;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.new-account span {
+    color: #573b8a;
+}
+
+.new-account .switch-form {
+    color: #573b8a;
+    font-weight: 700;
 }
 
 /* Message Styling */
 .message {
-	color: #ff4d4d;
-	/* Brighter red for errors */
-	background-color: rgba(0, 0, 0, 0.2);
-	/* Slight dark background */
-	text-align: center;
-	margin: -15px auto 10px auto;
-	/* Negative top margin to pull it up */
-	width: 80%;
-	padding: 8px;
-	border-radius: 5px;
-	font-size: 0.9em;
-	/* Slightly smaller font */
-	font-weight: bold;
-	box-sizing: border-box;
+    color: #ff4d4d;
+    background-color: rgba(255, 77, 77, 0.1);
+    text-align: center;
+    margin: 5px auto 15px auto;
+    width: 80%;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 0.9em;
+    font-weight: 500;
+    border: 1px solid rgba(255, 77, 77, 0.3);
 }
 
 .message.success {
-	/* Enhanced styling for success messages */
-	color: #4CAF50;
-	/* Brighter green color */
-	background-color: rgba(76, 175, 80, 0.15);
-	/* Light green background with better opacity */
-	border: 1px solid rgba(76, 175, 80, 0.3);
-	/* Subtle border */
+    color: #4CAF50;
+    background-color: rgba(76, 175, 80, 0.1);
+    border: 1px solid rgba(76, 175, 80, 0.3);
 }
 
-.login .message {
-	color: #d9534f;
-	/* Error color for login */
-	background-color: rgba(0, 0, 0, 0.05);
-	/* Lighter background */
+/* OTP Section Styling */
+#otpSection {
+    margin: 20px auto;
+    width: 85%;
+    background-color: rgba(87, 59, 138, 0.2);
+    border-radius: 8px;
+    padding: 15px 10px;
+    margin-bottom: 30px;
 }
 
-.login .message.success {
-	color: #4CAF50;
-	/* Consistent green color for login success */
-	background-color: rgba(76, 175, 80, 0.15);
-	/* Match the signup success background */
-	border: 1px solid rgba(76, 175, 80, 0.3);
-	/* Subtle border */
-}
-
-/* OTP Section Visibility Control */
 #otpSection.hidden {
-	display: none;
+    display: none;
 }
 
 #otpSection.visible {
-	display: block;
-	/* Make it visible */
-	width: 100%;
-	text-align: center;
-	/* margin-top: -20px; Remove negative margin */
-	margin-top: 10px;
-	/* Add some positive top margin */
-	padding: 0 10px;
-	/* Add some padding */
-	box-sizing: border-box;
-}
-
-/* Center form elements within OTP section */
-#otpSection form {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
+    display: block;
 }
 
 #otpSection p {
-	color: #fff;
-	/* White text for OTP prompt */
-	margin-bottom: 10px;
-	font-size: 0.9em;
+    color: #fff;
+    margin-bottom: 15px;
+    font-size: 0.9em;
+    text-align: center;
 }
 
-/* Ensure forms themselves don't take extra space if needed */
-.signup form,
-.login form {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	width: 100%;
-	/* Ensure form takes width */
+/* Responsive adjustments */
+@media (max-width: 480px) {
+    .main {
+        width: 90%;
+        height: 650px;
+    }
+    
+    input, button {
+        width: 80%;
+    }
+    
+    label {
+        font-size: 1.5em;
+    }
+    
+    @media (max-height: 700px) {
+        .main {
+            height: 95vh;
+            max-height: 650px;
+        }
+        
+        input {
+            margin: 10px auto;
+        }
+        
+        button {
+            margin: 15px auto;
+        }
+    }
 }
