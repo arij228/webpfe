@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <!-- Correct CSS path using url_for (assuming login.css is in static/assets/css) -->
+  <link rel="stylesheet"
+    href="{{ url_for('static', filename='css/login.css') }}">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap"
+    rel="stylesheet">
+</head>
+
+<body>
+
+  <div class="main">
+    <!-- Checkbox controls which form is visible via CSS -->
+    <!-- Flask controls initial state via 'checked' -->
+    <input type="checkbox" id="chk" aria-hidden="true" {% if just_registered
+      %}checked{% endif %}>
+
+    <!-- Partie Sign up -->
+    <div class="signup">
+      <!-- Signup Form submits to /signup -->
+      <!-- The visibility of this form vs OTP section is now controlled by CSS/Flask -->
+      <form id="signupForm" name="signupForm" method="POST"
+        action="{{ url_for('signup') }}">
+        <label for="chk" aria-hidden="true">Sign up</label>
+        <!-- Display signup messages from Flask -->
+        {% if signup_message %}
+        <div
+          class="message {% if 'envoyé' in signup_message|lower or 'success' in signup_message|lower %}success{% endif %}">
+          {{ signup_message }}</div>
+        {% endif %}
+        <input type="email" name="email" placeholder="Email" required
+          value="{{ request.form.email if request and request.form else '' }}">
+        <input type="password" name="password" placeholder="Mot de passe"
+          required>
+        <button type="submit">Envoyer le code OTP</button>
+      </form>
+
+      <!-- OTP Verification Section - Visibility controlled by CSS class from Flask -->
+      <!-- Apply 'visible' or 'hidden' class based on show_otp variable -->
+      <div id="otpSection"
+        class="{% if show_otp %}visible{% else %}hidden{% endif %}">
+        <form id="otpForm" method="POST" action="{{ url_for('verify_otp') }}">
+          <!-- Display OTP messages from Flask -->
+          {% if otp_message %}
+          <div
+            class="message {% if otp_message and ('success' in otp_message|lower or 'réussi' in otp_message|lower) %}success{% endif %}">
+            {{ otp_message }}</div>
+          {% endif %}
+          <!-- Removed inline style, use CSS -->
+          <p>Entrez le code OTP envoyé à {{ email_for_otp }}</p>
+          <!-- Hidden input to send email along with OTP -->
+          <input type="hidden" name="email" value="{{ email_for_otp }}">
+          <input type="text" name="otp" id="otpInput"
+            placeholder="Entrez le code OTP" required>
+          <button type="submit" id="verifyOtp">Vérifier OTP</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Partie Login -->
+    <div class="login">
+      <!-- Login Form submits to /login -->
+      <form id="loginForm" method="POST" action="{{ url_for('login') }}">
+        <label for="chk" aria-hidden="true">Login</label>
+        <!-- Display login messages from Flask -->
+        {% if login_message %}
+        <!-- Add success class if message indicates success -->
+        <div
+          class="message {% if 'réussie' in login_message|lower or 'success' in login_message|lower %}success{% endif %}">
+          {{ login_message }}</div>
+        {% endif %}
+        <input type="email" name="email" placeholder="Email" required
+          value="{{ request.form.email if request and request.form else '' }}">
+        <input type="password" name="password" placeholder="Password" required>
+        <button type="submit">Login</button>
+      </form>
+    </div>
+  </div>
+
+</body>
+
+</html>
