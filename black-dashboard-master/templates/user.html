@@ -1,18 +1,4 @@
-<!--
-=========================================================
-* * Black Dashboard - v1.0.1
-=========================================================
 
-* Product Page: https://www.creative-tim.com/product/black-dashboard
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
--->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -148,25 +134,25 @@
       <!-- End Navbar -->
       <div class="content">
         <div class="row">
+          <!-- Profile edit form on the left -->
           <div class="col-md-8">
             <div class="card">
               <div class="card-header">
                 <h5 class="title">Edit Profile</h5>
               </div>
               <div class="card-body">
-                <form>
+                <form action="{{ url_for('update_profile') }}" method="POST">
                   <div class="row">
-                    
                     <div class="col-md-3 px-md-1">
                       <div class="form-group">
                         <label>Username</label>
-                        <input type="text" class="form-control" placeholder="Username" value="michael23">
+                        <input type="text" name="username" class="form-control" placeholder="Username" value="{{ user.username }}">
                       </div>
                     </div>
                     <div class="col-md-4 pl-md-1">
                       <div class="form-group">
                         <label for="exampleInputEmail1">Email address</label>
-                        <input type="email" class="form-control" placeholder="mike@email.com">
+                        <input type="email" name="email" class="form-control" placeholder="Email" value="{{ user.email }}" readonly>
                       </div>
                     </div>
                   </div>
@@ -174,13 +160,13 @@
                     <div class="col-md-6 pr-md-1">
                       <div class="form-group">
                         <label>First Name</label>
-                        <input type="text" class="form-control" placeholder="Company" value="Mike">
+                        <input type="text" name="first_name" class="form-control" placeholder="First Name" value="{{ user.first_name }}">
                       </div>
                     </div>
                     <div class="col-md-6 pl-md-1">
                       <div class="form-group">
                         <label>Last Name</label>
-                        <input type="text" class="form-control" placeholder="Last Name" value="Andrew">
+                        <input type="text" name="last_name" class="form-control" placeholder="Last Name" value="{{ user.last_name }}">
                       </div>
                     </div>
                   </div>
@@ -188,7 +174,7 @@
                     <div class="col-md-12">
                       <div class="form-group">
                         <label>Address</label>
-                        <input type="text" class="form-control" placeholder="Home Address" value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09">
+                        <input type="text" name="address" class="form-control" placeholder="Home Address" value="{{ user.address }}">
                       </div>
                     </div>
                   </div>
@@ -196,30 +182,31 @@
                     <div class="col-md-4 pr-md-1">
                       <div class="form-group">
                         <label>City</label>
-                        <input type="text" class="form-control" placeholder="City" value="Mike">
+                        <input type="text" name="city" class="form-control" placeholder="City" value="{{ user.city }}">
                       </div>
                     </div>
                     <div class="col-md-4 px-md-1">
                       <div class="form-group">
                         <label>Country</label>
-                        <input type="text" class="form-control" placeholder="Country" value="Andrew">
+                        <input type="text" name="country" class="form-control" placeholder="Country" value="{{ user.country }}">
                       </div>
                     </div>
                     <div class="col-md-4 pl-md-1">
                       <div class="form-group">
                         <label>Postal Code</label>
-                        <input type="number" class="form-control">
+                        <input type="number" name="postal_code" class="form-control" value="{{ user.postal_code }}">
                       </div>
                     </div>
                   </div>
-                  
+                  <div class="card-footer">
+                    <button type="submit" class="btn btn-fill btn-primary">Save</button>
+                  </div>
                 </form>
-              </div>
-              <div class="card-footer">
-                <button type="submit" class="btn btn-fill btn-primary">Save</button>
               </div>
             </div>
           </div>
+          
+          <!-- Profile card with image on the right -->
           <div class="col-md-4">
             <div class="card card-user">
               <div class="card-body">
@@ -231,18 +218,17 @@
                     <div class="block block-four"></div>
                     <a href="javascript:void(0)">
                       <img class="avatar" src="../static/img/emilyz.jpg" alt="...">
-                      <h5 class="title">Mike Andrew</h5>
+                      <h5 class="title">{{ user.first_name }} {{ user.last_name }}</h5>
                     </a>
                     <p class="description">
-                      Ceo/Co-Founder
+                      {{ user.email }}
                     </p>
                   </div>
                 </p>
                 <div class="card-description">
-
+                  <!-- You can add a dynamic description here if needed -->
                 </div>
               </div>
-             
             </div>
           </div>
         </div>

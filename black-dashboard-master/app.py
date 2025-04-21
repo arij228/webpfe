@@ -269,15 +269,79 @@ def dashboard():
     # Use email as identifier since we don't have username in our database
     email = session.get('user_email', 'Utilisateur')
     return render_template('dashboard.html', username=email)
-@app.route('/user.html')  # Changez cette ligne
+@app.route('/user.html')
 def user():
     # Vérifier si l'utilisateur est connecté
     if 'user_email' not in session:
         return redirect(url_for('index'))
     
-    # Récupérer l'email comme identifiant
-    email = session.get('user_email', 'Utilisateur')
-    return render_template('user.html', username=email)
+    # Récupérer l'email de l'utilisateur connecté
+    email = session.get('user_email')
+    
+    # Se connecter à la base de données
+    conn = get_db_connection()
+    if not conn:
+        flash("Erreur de connexion à la base de données", "error")
+        return redirect(url_for('dashboard'))
+    
+    cursor = conn.cursor()
+    
+    try:
+        # Récupérer les informations de l'utilisateur
+        cursor.execute("SELECT email FROM dbo.Users WHERE email = ?", (email,))
+        user_info = cursor.fetchone()
+        
+        if not user_info:
+            cursor.close()
+            conn.close()
+            flash("Utilisateur non trouvé", "error")
+            return redirect(url_for('dashboard'))
+        
+        # Créer un dictionnaire avec les informations disponibles
+        user_data = {
+            'email': user_info[0],
+            # Pour l'instant, on n'a que l'email dans la base de données
+            # Les autres champs seront soit vides, soit remplis avec des valeurs par défaut
+            'username': email.split('@')[0],  # On utilise la partie locale de l'email comme username par défaut
+            'first_name': '',
+            'last_name': '',
+            'address': '',
+            'city': '',
+            'country': '',
+            'postal_code': ''
+        }
+        
+    except Exception as e:
+        print(f"Erreur lors de la récupération des informations utilisateur: {e}")
+        cursor.close()
+        conn.close()
+        flash("Erreur lors de la récupération des informations utilisateur", "error")
+        return redirect(url_for('dashboard'))
+    
+    cursor.close()
+    conn.close()
+    
+    # Passer les informations au template
+    return render_template('user.html', user=user_data)
+@app.route('/update_profile', methods=['POST'])
+def update_profile():
+    if 'user_email' not in session:
+        return redirect(url_for('index'))
+    
+    # Récupérer les données du formulaire
+    username = request.form.get('username')
+    first_name = request.form.get('first_name')
+    last_name = request.form.get('last_name')
+    address = request.form.get('address')
+    city = request.form.get('city')
+    country = request.form.get('country')
+    postal_code = request.form.get('postal_code')
+    
+    # Mettre à jour la base de données
+    # (Vous devrez d'abord modifier votre schéma pour ajouter ces colonnes)
+    
+    flash('Profil mis à jour avec succès', 'success')
+    return redirect(url_for('user'))
 @app.route('/logout')
 def logout():
     session.clear()
