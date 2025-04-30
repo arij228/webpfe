@@ -29,9 +29,13 @@
         </div>
         {% endif %}
         
-        <input type="email" name="email" placeholder="Email" required
+        <input type="email" name="email" id="signup-email" placeholder="Email" required
           value="{{ request.form.email if request and request.form else '' }}">
-        <input type="password" name="password" placeholder="Mot de passe" required>
+        <div class="error-message" id="signup-email-error"></div>
+        
+        <input type="password" name="password" id="signup-password" placeholder="Mot de passe" required>
+        <div class="error-message" id="signup-password-error"></div>
+        
         <button type="submit">Envoyer le code OTP</button>
       </form>
 
@@ -67,13 +71,129 @@
         </div>
         {% endif %}
         
-        <input type="email" name="email" placeholder="Email" required
-          value="{{ request.form.email if request and request.form else '' }}">
-        <input type="password" name="password" placeholder="Mot de passe" required>
+      <input type="email" name="email" id="login-email" placeholder="Email" required
+        value="{{ request.form.email if request and request.form else '' }}">
+      <div class="error-message" id="login-email-error"></div>
+      
+      <input type="password" name="password" id="login-password" placeholder="Mot de passe" required>
+      <div class="error-message" id="login-password-error"></div>
+      
         <button type="submit">Se connecter</button>
       </form>
     </div>
   </div>
+  <script>
+    // Fonction pour valider le format d'un email
+    function isValidEmail(email) {
+      return email.includes('@') && email.includes('.');
+    }
+    
+    // Validation du formulaire d'inscription
+    function validateSignupForm() {
+      const email = document.getElementById('signup-email').value;
+      const password = document.getElementById('signup-password').value;
+      const emailError = document.getElementById('signup-email-error');
+      const passwordError = document.getElementById('signup-password-error');
+      
+      let isValid = true;
+      
+      // Validation de l'email
+      if (!isValidEmail(email)) {
+        document.getElementById('signup-email').classList.add('invalid');
+        emailError.style.display = 'block';
+        document.getElementById('signup-email').classList.add('shake');
+        isValid = false;
+      } else {
+        document.getElementById('signup-email').classList.remove('invalid');
+        emailError.style.display = 'none';
+      }
+      
+      // Validation du mot de passe
+      if (password.length < 6) {
+        document.getElementById('signup-password').classList.add('invalid');
+        passwordError.style.display = 'block';
+        document.getElementById('signup-password').classList.add('shake');
+        isValid = false;
+      } else {
+        document.getElementById('signup-password').classList.remove('invalid');
+        passwordError.style.display = 'none';
+      }
+      
+      return isValid;
+    }
+    
+    // Validation du formulaire de connexion
+    function validateLoginForm() {
+      const email = document.getElementById('login-email').value;
+      const password = document.getElementById('login-password').value;
+      const emailError = document.getElementById('login-email-error');
+      const passwordError = document.getElementById('login-password-error');
+      
+      let isValid = true;
+      
+      // Validation de l'email
+      if (!isValidEmail(email)) {
+        document.getElementById('login-email').classList.add('invalid');
+        emailError.style.display = 'block';
+        document.getElementById('login-email').classList.add('shake');
+        isValid = false;
+      } else {
+        document.getElementById('login-email').classList.remove('invalid');
+        emailError.style.display = 'none';
+      }
+      
+      // Validation basique du mot de passe (présence)
+      if (password.trim() === '') {
+        document.getElementById('login-password').classList.add('invalid');
+        passwordError.style.display = 'block';
+        document.getElementById('login-password').classList.add('shake');
+        isValid = false;
+      } else {
+        document.getElementById('login-password').classList.remove('invalid');
+        passwordError.style.display = 'none';
+      }
+      
+      return isValid;
+    }
+    
+    // Retirer l'animation shake après la fin
+    document.querySelectorAll('input').forEach(input => {
+      input.addEventListener('animationend', function() {
+        this.classList.remove('shake');
+      });
+    });
+    
+    // Valider en temps réel lorsque l'utilisateur quitte un champ
+    document.getElementById('signup-email').addEventListener('blur', function() {
+      if (!isValidEmail(this.value) && this.value !== '') {
+        this.classList.add('invalid');
+        document.getElementById('signup-email-error').style.display = 'block';
+      } else {
+        this.classList.remove('invalid');
+        document.getElementById('signup-email-error').style.display = 'none';
+      }
+    });
+    
+    document.getElementById('signup-password').addEventListener('blur', function() {
+      if (this.value.length < 6 && this.value !== '') {
+        this.classList.add('invalid');
+        document.getElementById('signup-password-error').style.display = 'block';
+      } else {
+        this.classList.remove('invalid');
+        document.getElementById('signup-password-error').style.display = 'none';
+      }
+    });
+    
+    document.getElementById('login-email').addEventListener('blur', function() {
+      if (!isValidEmail(this.value) && this.value !== '') {
+        this.classList.add('invalid');
+        document.getElementById('login-email-error').style.display = 'block';
+      } else {
+        this.classList.remove('invalid');
+        document.getElementById('login-email-error').style.display = 'none';
+      }
+    });
+  </script>
 </body>
 
 </html>

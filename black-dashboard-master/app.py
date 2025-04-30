@@ -30,6 +30,7 @@ def get_db_connection():
         return None
 
 # Fonction pour initialiser la base de données
+# Fonction pour initialiser la base de données
 def init_db():
     conn = get_db_connection()
     if conn:
@@ -39,23 +40,51 @@ def init_db():
         try:
             cursor.execute("""
                 SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES 
-                WHERE TABLE_NAME = 'Users' AND TABLE_SCHEMA = 'dbo'
+                WHERE TABLE_NAME = 'Userinfo' AND TABLE_SCHEMA = 'dbo'
             """)
             
             table_exists = cursor.fetchone()[0] > 0
             
             if not table_exists:
-                # Créer la table Users avec uniquement les 5 champs requis
+                # Créer la table Users avec tous les champs requis
                 cursor.execute("""
-                    CREATE TABLE dbo.Users (
+                    CREATE TABLE dbo.Userinfo (
                         id INT IDENTITY(1,1) PRIMARY KEY,
                         email NVARCHAR(100) NOT NULL UNIQUE,
                         password NVARCHAR(255) NOT NULL,
                         otp NVARCHAR(6) NULL,
-                        otp_expiry DATETIME NULL
+                        otp_expiry DATETIME NULL,
+                        username NVARCHAR(100) NULL,
+                        first_name NVARCHAR(100) NULL,
+                        last_name NVARCHAR(100) NULL,
+                        address NVARCHAR(255) NULL,
+                        city NVARCHAR(100) NULL,
+                        country NVARCHAR(100) NULL,
+                        postal_code NVARCHAR(20) NULL
                     )
                 """)
-                print("Table Users créée avec succès!")
+                print("Table Userinfo créée avec succès!")
+            else:
+                # Vérifier si chaque colonne existe et l'ajouter si nécessaire
+                for column_name, column_type in [
+                    ('username', 'NVARCHAR(100)'),
+                    ('first_name', 'NVARCHAR(100)'),
+                    ('last_name', 'NVARCHAR(100)'),
+                    ('address', 'NVARCHAR(255)'),
+                    ('city', 'NVARCHAR(100)'),
+                    ('country', 'NVARCHAR(100)'),
+                    ('postal_code', 'NVARCHAR(20)')
+                ]:
+                    cursor.execute(f"""
+                        IF NOT EXISTS (
+                            SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
+                            WHERE TABLE_NAME = 'Userinfo' AND COLUMN_NAME = '{column_name}'
+                        )
+                        BEGIN
+                            ALTER TABLE dbo.Userinfo ADD {column_name} {column_type} NULL;
+                        END
+                    """)
+                print("Colonnes vérifiées et ajoutées si nécessaire.")
             
             conn.commit()
         except Exception as e:
@@ -64,9 +93,6 @@ def init_db():
         finally:
             cursor.close()
             conn.close()
-
-# Alternative à before_first_request pour Flask 2+
-# Utilisation d'un point d'entrée avec contexte d'application
 @app.route('/')
 def index():
     # Initialiser la BD lors de la première requête
@@ -83,6 +109,9 @@ def signup():
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
+        
+        if not email or '@' not in email:
+            return render_template('login.html', signup_message="Format d'email invalide")
         
         # Vérification basique
         if not all([email, password]):
@@ -227,14 +256,19 @@ def login():
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
+        if not email or '@' not in email:
+            return render_template('login.html', login_message="Format d'email invalide")
+        
+        if not password:
+            return render_template('login.html', login_message="Veuillez entrer votre mot de passe")
         
         conn = get_db_connection()
         if not conn:
             return render_template('login.html', login_message="Erreur de connexion à la base de données")
         
-        cursor = conn.cursor()
+    cursor = conn.cursor()
         
-        try:
+    try:
             cursor.execute("""
                 SELECT email, password FROM dbo.Users WHERE email = ? AND otp IS NULL
             """, (email,))
@@ -252,7 +286,7 @@ def login():
                 cursor.close()
                 conn.close()
                 return render_template('login.html', login_message="Email ou mot de passe incorrect")
-        except Exception as e:
+    except Exception as e:
             print(f"Erreur lors de la connexion: {e}")
             cursor.close()
             conn.close()
@@ -269,7 +303,7 @@ def dashboard():
     # Use email as identifier since we don't have username in our database
     email = session.get('user_email', 'Utilisateur')
     return render_template('dashboard.html', username=email)
-@app.route('/user.html')
+@app.route('/user')
 def user():
     # Vérifier si l'utilisateur est connecté
     if 'user_email' not in session:
@@ -325,11 +359,15 @@ def user():
     return render_template('user.html', user=user_data)
 @app.route('/update_profile', methods=['POST'])
 def update_profile():
-    if 'user_email' not in session:
-        return redirect(url_for('index'))
+    # if 'user_email' not in session:
+    #     return redirect(url_for('index'))
+    
+    # Récupérer l'email de l'utilisateur connecté
+    email = session.get('user_email')
     
     # Récupérer les données du formulaire
     username = request.form.get('username')
+    print(username)
     first_name = request.form.get('first_name')
     last_name = request.form.get('last_name')
     address = request.form.get('address')
@@ -337,15 +375,74 @@ def update_profile():
     country = request.form.get('country')
     postal_code = request.form.get('postal_code')
     
-    # Mettre à jour la base de données
-    # (Vous devrez d'abord modifier votre schéma pour ajouter ces colonnes)
+    # Log des données pour débogage
+    print(f"Données reçues: username={username}, first_name={first_name}, last_name={last_name}, "
+          f"address={address}, city={city}, country={country}, postal_code={postal_code}")
     
-    flash('Profil mis à jour avec succès', 'success')
+    # Se connecter à la base de données
+    conn = get_db_connection()
+    if not conn:
+        flash("Erreur de connexion à la base de données", "error")
+        return redirect(url_for('user'))
+    
+    cursor = conn.cursor()
+    
+    try:
+        # Vérifier d'abord si l'utilisateur existe
+        cursor.execute("SELECT COUNT(*) FROM dbo.Userinfo WHERE email = ?", (email,))
+        user_exists = cursor.fetchone()[0] > 0
+        
+        if not user_exists:
+            flash("Utilisateur non trouvé dans la base de données", "error")
+            cursor.close()
+            conn.close()
+            return redirect(url_for('user'))
+        
+        # Mettre à jour les informations de l'utilisateur avec gestion des NULL
+        cursor.execute("""
+            UPDATE dbo.Userinfo 
+            SET username = ?, 
+                first_name = ?, 
+                last_name = ?, 
+                address = ?, 
+                city = ?, 
+                country = ?, 
+                postal_code = ?
+            WHERE email = ?
+        """, (
+            username or None,  # Utiliser None si la valeur est vide
+            first_name or None,
+            last_name or None,
+            address or None,
+            city or None,
+            country or None,
+            postal_code or None,
+            email
+        ))
+        
+        conn.commit()
+        print(f"Profil mis à jour avec succès pour {email}")
+        flash('Profil mis à jour avec succès', 'success')
+    except Exception as e:
+        print(f"Erreur lors de la mise à jour du profil: {e}")
+        conn.rollback()
+        flash("Erreur lors de la mise à jour du profil", "error")
+    finally:
+        cursor.close()
+        conn.close()
+    
     return redirect(url_for('user'))
 @app.route('/logout')
 def logout():
     session.clear()
     return redirect(url_for('index'))
+@app.route('/documentation')
+def documentation():
+    # Vérifier si l'utilisateur est connecté (optionnel, selon vos besoins)
+    if 'user_email' not in session:
+        return redirect(url_for('index'))
+    
+    return render_template('documentation.html')
 
 if __name__ == '__main__':
     # Vous pouvez aussi initialiser la BD ici
