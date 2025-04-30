@@ -367,7 +367,6 @@ def update_profile():
     
     # Récupérer les données du formulaire
     username = request.form.get('username')
-    print(username)
     first_name = request.form.get('first_name')
     last_name = request.form.get('last_name')
     address = request.form.get('address')
@@ -377,49 +376,54 @@ def update_profile():
     
     # Log des données pour débogage
     print(f"Données reçues: username={username}, first_name={first_name}, last_name={last_name}, "
-          f"address={address}, city={city}, country={country}, postal_code={postal_code}")
-    
-    # Se connecter à la base de données
-    conn = get_db_connection()
-    if not conn:
-        flash("Erreur de connexion à la base de données", "error")
-        return redirect(url_for('user'))
-    
-    cursor = conn.cursor()
+          f"address={address}, city={city}, country={country}, postal_code={postal_code}, email = {email}")
     
     try:
+        # Se connecter à la base de données
+        conn = get_db_connection()
+        if not conn:
+            flash("Erreur de connexion à la base de données", "error")
+            return redirect(url_for('user'))
+        print("db connected")
+        cursor = None
+        cursor = conn.cursor()
         # Vérifier d'abord si l'utilisateur existe
         cursor.execute("SELECT COUNT(*) FROM dbo.Userinfo WHERE email = ?", (email,))
         user_exists = cursor.fetchone()[0] > 0
         
-        if not user_exists:
+        if user_exists:
+            print('users exists')
             flash("Utilisateur non trouvé dans la base de données", "error")
             cursor.close()
             conn.close()
             return redirect(url_for('user'))
-        
+        print('starting update request')
         # Mettre à jour les informations de l'utilisateur avec gestion des NULL
         cursor.execute("""
-            UPDATE dbo.Userinfo 
-            SET username = ?, 
-                first_name = ?, 
-                last_name = ?, 
-                address = ?, 
-                city = ?, 
-                country = ?, 
-                postal_code = ?
-            WHERE email = ?
+           INSERT INTO dbo.Userinfo (
+            username, 
+            first_name, 
+            last_name, 
+            address, 
+            city, 
+            country, 
+            postal_code, 
+            email
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+
         """, (
-            username or None,  # Utiliser None si la valeur est vide
-            first_name or None,
-            last_name or None,
-            address or None,
-            city or None,
-            country or None,
-            postal_code or None,
+            username,  # Utiliser None si la valeur est vide
+            first_name,
+            last_name,
+            address ,
+            city ,
+            country ,
+            postal_code,
             email
         ))
-        
+        print(f"Données reçues: username={username}, first_name={first_name}, last_name={last_name}, "
+          f"address={address}, city={city}, country={country}, postal_code={postal_code}, email = {email}")
+    
         conn.commit()
         print(f"Profil mis à jour avec succès pour {email}")
         flash('Profil mis à jour avec succès', 'success')
@@ -427,9 +431,7 @@ def update_profile():
         print(f"Erreur lors de la mise à jour du profil: {e}")
         conn.rollback()
         flash("Erreur lors de la mise à jour du profil", "error")
-    finally:
-        cursor.close()
-        conn.close()
+ 
     
     return redirect(url_for('user'))
 @app.route('/logout')
